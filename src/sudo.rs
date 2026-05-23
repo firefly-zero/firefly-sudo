@@ -1,10 +1,10 @@
 //! Functions available only to privileged apps.
 
-use crate::fs::{File, FileBuf};
 #[cfg(feature = "alloc")]
 use alloc::boxed::Box;
 #[cfg(feature = "alloc")]
 use alloc::vec;
+use firefly_rust::{FileBuf, FileRef};
 
 #[cfg(feature = "alloc")]
 pub struct DirBuf {
@@ -142,7 +142,7 @@ pub fn get_file_size(path: &str) -> usize {
 ///
 /// The path must be relative to the root of the FS.
 /// For example: `sys/launcher`.
-pub fn load_file<'a>(path: &str, buf: &'a mut [u8]) -> File<'a> {
+pub fn load_file<'a>(path: &str, buf: &'a mut [u8]) -> FileRef<'a> {
     let path_ptr = path.as_ptr() as u32;
     let path_len = path.len() as u32;
     let buf_ptr = buf.as_mut_ptr() as u32;
@@ -150,7 +150,7 @@ pub fn load_file<'a>(path: &str, buf: &'a mut [u8]) -> File<'a> {
     unsafe {
         b::load_file(path_ptr, path_len, buf_ptr, buf_len);
     }
-    File { raw: buf }
+    unsafe { FileRef::from_bytes(buf) }
 }
 
 /// Like [`load_file`] but takes care of the buffer allocation and ownership.
@@ -163,7 +163,7 @@ pub fn load_file_buf(path: &str) -> Option<FileBuf> {
     if size == 0 {
         return None;
     }
-    let mut buf = vec![0; size];
+    let mut buf = vec![0u8; size];
     let path_ptr = path.as_ptr() as u32;
     let path_len = path.len() as u32;
     let buf_ptr = buf.as_mut_ptr() as u32;
@@ -171,9 +171,8 @@ pub fn load_file_buf(path: &str) -> Option<FileBuf> {
     unsafe {
         b::load_file(path_ptr, path_len, buf_ptr, buf_len);
     }
-    Some(FileBuf {
-        raw: buf.into_boxed_slice(),
-    })
+    let buf = buf.into_boxed_slice();
+    Some(unsafe { FileBuf::from_bytes(buf) })
 }
 
 pub fn dump_file(path: &str, buf: &[u8]) {
