@@ -1,14 +1,14 @@
 [package]
-name = "firefly-rust"
-version = "0.13.2"
+name = "firefly-sudo"
+version = "0.1.0"
 edition = "2024"
-rust-version = "1.89.0"
+rust-version = "1.95.0"
 authors = ["Firefly Zero team"]
-description = "Rust SDK for making Firefly Zero games"
-repository = "https://github.com/firefly-zero/firefly-rust"
+description = "SDK for accessing internal Firefly Zero API"
+repository = "https://github.com/firefly-zero/firefly-sudo"
 license = "MIT"
 keywords = ["gamedev", "firefly-zero"]
-categories = ["game-development", "no-std", "rendering", "api-bindings", "wasm"]
+categories = ["no-std", "api-bindings", "wasm"]
 
 [features]
 default = []

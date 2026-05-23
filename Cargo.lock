@@ -4,13 +4,13 @@ version = 4
 
 [[package]]
 name = "firefly-rust"
-version = "0.13.2"
-dependencies = [
- "firefly-rust 0.14.0",
-]
-
-[[package]]
-name = "firefly-rust"
 version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "56338bf159fd7795f99bcb52191a753684c47761552eb11eaa69ec578507b6e3"
+
+[[package]]
+name = "firefly-sudo"
+version = "0.1.0"
+dependencies = [
+ "firefly-rust",
+]

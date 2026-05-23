@@ -21,17 +21,6 @@ tasks:
     cmds:
       - rustup target add wasm32-unknown-unknown
       - cargo test --all-features --lib
-      - >
-        cargo build
-        --example   triangle
-        --target    wasm32-unknown-unknown
-        --no-default-features
-      - >
-        cargo build
-        --example   image
-        --target    wasm32-unknown-unknown
-        --features  alloc,std
-        --no-default-features
   lint:
     desc: "run linters"
     cmds:

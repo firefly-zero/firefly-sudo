@@ -4,7 +4,7 @@
 use alloc::boxed::Box;
 #[cfg(feature = "alloc")]
 use alloc::vec;
-use firefly_rust::{FileBuf, FileRef};
+use firefly_rust::*;
 
 #[cfg(feature = "alloc")]
 pub struct DirBuf {
