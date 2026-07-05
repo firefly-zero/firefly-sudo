@@ -1,6 +1,6 @@
 [package]
 name = "firefly-sudo"
-version = "0.14.0"
+version = "0.14.1"
 edition = "2024"
 rust-version = "1.95.0"
 authors = ["Firefly Zero team"]
@@ -15,7 +15,7 @@ default = []
 alloc = ["firefly-rust/alloc"]
 
 [dependencies]
-firefly-rust = "0.14.0"
+firefly-rust = "0.15.0"
 
 # https://docs.rs/about/metadata
 # https://github.com/firefly-zero/firefly-rust/issues/17
