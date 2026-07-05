@@ -15,7 +15,7 @@ default = []
 alloc = ["firefly-rust/alloc"]
 
 [dependencies]
-firefly-rust = "0.15.0"
+firefly-rust = { version = "0.15.0", default-features = false }
 
 # https://docs.rs/about/metadata
 # https://github.com/firefly-zero/firefly-rust/issues/17
