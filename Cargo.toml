@@ -1,6 +1,6 @@
 [package]
 name = "firefly-sudo"
-version = "0.14.1"
+version = "0.14.2"
 edition = "2024"
 rust-version = "1.95.0"
 authors = ["Firefly Zero team"]
