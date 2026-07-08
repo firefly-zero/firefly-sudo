@@ -219,21 +219,63 @@ pub fn create_dir(path: &str) {
     }
 }
 
+/// Write content of the file to the given partition.
+#[must_use]
+pub fn write_partition(part: u8, path: &str) -> bool {
+    let path_ptr = path.as_ptr() as u32;
+    let path_len = path.len() as u32;
+    let code = unsafe { b::write_partition(u32::from(part), path_ptr, path_len) };
+    code == 0
+}
+
+pub fn switch_partition(part: u8) {
+    unsafe {
+        b::switch_partition(u32::from(part));
+    }
+}
+
 /// Low-level bindings for host-defined "sudo" module.
 mod b {
     #[link(wasm_import_module = "sudo")]
     unsafe extern "C" {
-        pub(super) fn list_dirs_buf_size(path_ptr: u32, path_len: u32) -> u32;
-        pub(super) fn list_dirs(path_ptr: u32, path_len: u32, buf_ptr: u32, buf_len: u32) -> u32;
-        pub(super) fn list_files_buf_size(path_ptr: u32, path_len: u32) -> u32;
-        pub(super) fn list_files(path_ptr: u32, path_len: u32, buf_ptr: u32, buf_len: u32) -> u32;
-        pub(super) fn run_app(author_ptr: u32, author_len: u32, app_ptr: u32, app_len: u32);
-        pub(super) fn get_file_size(path_ptr: u32, path_len: u32) -> u32;
-        pub(super) fn load_file(path_ptr: u32, path_len: u32, buf_ptr: u32, buf_len: u32) -> u32;
-        pub(super) fn dump_file(path_ptr: u32, path_len: u32, buf_ptr: u32, buf_len: u32) -> u32;
-        pub(super) fn append_file(path_ptr: u32, path_len: u32, buf_ptr: u32, buf_len: u32) -> u32;
-        pub(super) fn remove_file(path_ptr: u32, path_len: u32);
-        pub(super) fn remove_dir(path_ptr: u32, path_len: u32);
-        pub(super) fn create_dir(path_ptr: u32, path_len: u32);
+        pub(super) unsafe fn list_dirs_buf_size(path_ptr: u32, path_len: u32) -> u32;
+        pub(super) unsafe fn list_dirs(
+            path_ptr: u32,
+            path_len: u32,
+            buf_ptr: u32,
+            buf_len: u32,
+        ) -> u32;
+        pub(super) unsafe fn list_files_buf_size(path_ptr: u32, path_len: u32) -> u32;
+        pub(super) unsafe fn list_files(
+            path_ptr: u32,
+            path_len: u32,
+            buf_ptr: u32,
+            buf_len: u32,
+        ) -> u32;
+        pub(super) unsafe fn run_app(author_ptr: u32, author_len: u32, app_ptr: u32, app_len: u32);
+        pub(super) unsafe fn get_file_size(path_ptr: u32, path_len: u32) -> u32;
+        pub(super) unsafe fn load_file(
+            path_ptr: u32,
+            path_len: u32,
+            buf_ptr: u32,
+            buf_len: u32,
+        ) -> u32;
+        pub(super) unsafe fn dump_file(
+            path_ptr: u32,
+            path_len: u32,
+            buf_ptr: u32,
+            buf_len: u32,
+        ) -> u32;
+        pub(super) unsafe fn append_file(
+            path_ptr: u32,
+            path_len: u32,
+            buf_ptr: u32,
+            buf_len: u32,
+        ) -> u32;
+        pub(super) unsafe fn remove_file(path_ptr: u32, path_len: u32);
+        pub(super) unsafe fn remove_dir(path_ptr: u32, path_len: u32);
+        pub(super) unsafe fn create_dir(path_ptr: u32, path_len: u32);
+        pub(super) unsafe fn write_partition(part: u32, path_ptr: u32, path_len: u32) -> u32;
+        pub(super) unsafe fn switch_partition(part: u32);
     }
 }
