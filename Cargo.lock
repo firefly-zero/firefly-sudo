@@ -10,7 +10,7 @@ checksum = "f5e37e38fe528ee0750c7f52c3519b96272e20fe4b1f48f88edbdc56fa2c353a"
 
 [[package]]
 name = "firefly-sudo"
-version = "0.14.3"
+version = "0.14.4"
 dependencies = [
  "firefly-rust",
 ]

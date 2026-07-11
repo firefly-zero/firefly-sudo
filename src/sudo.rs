@@ -219,18 +219,31 @@ pub fn create_dir(path: &str) {
     }
 }
 
-/// Write content of the file to the given partition.
 #[must_use]
-pub fn write_partition(part: u8, path: &str) -> bool {
-    let path_ptr = path.as_ptr() as u32;
-    let path_len = path.len() as u32;
-    let code = unsafe { b::write_partition(u32::from(part), path_ptr, path_len) };
+pub fn write_main_flash(addr: u32, data: &[u8]) -> bool {
+    let ptr = data.as_ptr() as u32;
+    let len = data.len() as u32;
+    let code = unsafe { b::write_main_flash(addr, ptr, len) };
     code == 0
 }
 
-pub fn switch_partition(part: u8) {
+#[must_use]
+pub fn write_io_flash(addr: u32, data: &[u8]) -> bool {
+    let ptr = data.as_ptr() as u32;
+    let len = data.len() as u32;
+    let code = unsafe { b::write_io_flash(addr, ptr, len) };
+    code == 0
+}
+
+pub fn switch_main_partition(part: u8) {
     unsafe {
-        b::switch_partition(u32::from(part));
+        b::switch_main_partition(u32::from(part));
+    }
+}
+
+pub fn switch_io_partition(part: u8) {
+    unsafe {
+        b::switch_io_partition(u32::from(part));
     }
 }
 
@@ -275,7 +288,9 @@ mod b {
         pub(super) unsafe fn remove_file(path_ptr: u32, path_len: u32);
         pub(super) unsafe fn remove_dir(path_ptr: u32, path_len: u32);
         pub(super) unsafe fn create_dir(path_ptr: u32, path_len: u32);
-        pub(super) unsafe fn write_partition(part: u32, path_ptr: u32, path_len: u32) -> u32;
-        pub(super) unsafe fn switch_partition(part: u32);
+        pub(super) unsafe fn write_main_flash(addr: u32, ptr: u32, len: u32) -> u32;
+        pub(super) unsafe fn write_io_flash(addr: u32, ptr: u32, len: u32) -> u32;
+        pub(super) unsafe fn switch_main_partition(part: u32);
+        pub(super) unsafe fn switch_io_partition(part: u32);
     }
 }
